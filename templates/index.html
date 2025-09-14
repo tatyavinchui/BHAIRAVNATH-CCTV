@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CCTV Installation Services - Secure Your Property</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Arial', sans-serif; }
+
+        .hero-section {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            min-height: 50vh;
+            padding: 2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .fade-in { animation: fadeIn 2s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .service-card:hover { transform: scale(1.05); transition: transform 0.3s ease; }
+
+        @media (min-height: 600px) {
+            .hero-section { min-height: 60vh; }
+        }
+        .contact-info p { margin: 0.5rem 0; font-size: 1rem; }
+
+        .call-button {
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            background-color: #ffffff;
+            color: #1d4ed8;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+        .call-button:hover { background-color: #f3f4f6; }
+
+        @media (max-width: 768px) {
+            .hero-section h2 { font-size: 2.5rem; }
+            .service-card { margin-bottom: 1rem; }
+        }
+
+        /* Feedback stars */
+        .stars { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1rem; }
+        .star {
+            font-size: 2rem;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.3s;
+            user-select: none;
+        }
+        .star.selected, .star.hovered { color: #fbbf24; }
+
+        .feedback-message {
+            max-width: 400px;
+            margin: 0 auto 1rem auto;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            text-align: center;
+            display: none;
+        }
+        .feedback-message.success { background-color: #d1fae5; color: #065f46; }
+        .feedback-message.error { background-color: #fee2e2; color: #991b1b; }
+
+        .cctv-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .cctv-gallery img {
+            width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        .cctv-gallery img:hover { transform: scale(1.05); }
+
+        /* Welcome Modal */
+        .welcome-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.5s ease-out;
+        }
+        .modal-content {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 90%;
+            width: 400px;
+            text-align: center;
+        }
+        .close-btn {
+            margin-top: 1rem;
+            background: white;
+            color: #1d4ed8;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s;
+        }
+        .close-btn:hover { background-color: #f3f4f6; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Welcome Modal -->
+    <div id="welcome-modal" class="welcome-modal">
+        <div class="modal-content">
+            <h2 class="text-2xl md:text-3xl font-bold mb-4">Welcome to SecureVision!</h2>
+            <p class="text-lg mb-6">Your trusted partner for professional CCTV camera installation and security solutions. Explore our services and secure your property today!</p>
+            <button id="close-modal" class="close-btn">Explore Now</button>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white shadow-md fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-base md:w-16 md:h-16 md:text-lg">CCTV</div>
+                    <h1 class="ml-3 text-lg font-semibold md:ml-4 md:text-xl">BHAIRAVNATH CCTV</h1>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#services" class="text-gray-700 hover:text-blue-500 text-sm md:text-base">Services</a>
+                    <a href="#about" class="text-gray-700 hover:text-blue-500 text-sm md:text-base">About</a>
+                    <a href="#contact" class="text-gray-700 hover:text-blue-500 text-sm md:text-base">Contact</a>
+                </nav>
+                <button id="menu-toggle" class="md:hidden focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-200 shadow-lg hidden">
+            <nav class="px-4 py-4 space-y-2">
+                <a href="#services" class="block text-gray-700 hover:text-blue-500">Services</a>
+                <a href="#about" class="block text-gray-700 hover:text-blue-500">About</a>
+                <a href="#contact" class="block text-gray-700 hover:text-blue-500">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section text-white fade-in">
+        <div class="max-w-4xl px-4">
+            <h2 class="text-3xl md:text-5xl lg:text-6xl font-bold mb-4">Professional CCTV Camera Installation</h2>
+            <p class="text-base md:text-xl mb-6 md:mb-8">Secure your home or business with our expert installation services. High-quality systems tailored to your needs.</p>
+            <a href="#contact" class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition duration-300 inline-block">Get a Quote</a>
+        </div>
+        <div class="mt-6 md:mt-8 w-full max-w-4xl px-4">
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/633d607a-6bf9-4c1c-ab55-318fcf512466.png" alt="Modern CCTV camera installation setup" class="max-w-full h-auto rounded-lg shadow-lg" loading="lazy"/>
+        </div>
+        <div class="cctv-gallery max-w-4xl w-full px-4">
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/10df904b-eb7c-4910-b0e2-f6294a50b54b.png" alt="Dome CCTV camera installed on a ceiling" loading="lazy"/>
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/506d66fc-0513-4559-be0a-c7fb3a1e3df1.png" alt="Bullet CCTV camera mounted on a wall" loading="lazy"/>
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/6eac59d2-f8a0-431a-86bd-075223c1f538.png" alt="PTZ CCTV camera on a tripod stand" loading="lazy"/>
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/39f72679-af74-4419-afdf-9ed57d6cae8b.png" alt="Hidden CCTV camera disguised as smoke detector" loading="lazy"/>
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/35abb4f6-a128-4a5e-9300-7b337c2a3b17.png" alt="High-definition 4K CCTV camera" loading="lazy"/>
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/7ffaa7a1-0cb1-48a7-9235-bd60e360bbf3.png" alt="Solar-powered CCTV camera with battery backup" loading="lazy"/>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-12 px-4 bg-white md:py-16">
+        <div class="max-w-7xl mx-auto">
+            <h3 class="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12">Our Services</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <div class="service-card bg-gray-50 p-4 md:p-6 rounded-lg shadow-md">
+                    <div class="text-center mb-4">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/3897f564-b471-4170-bacf-503b775b2dc2.png" alt="Outdoor CCTV camera" class="max-w-full h-auto rounded" loading="lazy"/>
+                    </div>
+                    <h4 class="text-lg md:text-xl font-semibold mb-2">Camera System Installation</h4>
+                    <p class="text-sm md:text-base">We install a variety of CCTV cameras including wired and wireless options for homes, offices, and warehouses.</p>
+                </div>
+                <div class="service-card bg-gray-50 p-4 md:p-6 rounded-lg shadow-md">
+                    <div class="text-center mb-4">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a660bf9e-79eb-4cc1-aefc-9e387fa92a17.png" alt="Monitoring station" class="max-w-full h-auto rounded" loading="lazy"/>
+                    </div>
+                    <h4 class="text-lg md:text-xl font-semibold mb-2">Monitoring & Maintenance</h4>
+                    <p class="text-sm md:text-base">Regular check-ups and monitoring services to ensure your system is always operational.</p>
+                </div>
+                <div class="service-card bg-gray-50 p-4 md:p-6 rounded-lg shadow-md">
+                    <div class="text-center mb-4">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a7a43b2b-22e3-4840-90ce-333346636c1e.png" alt="Technician customizing CCTV system" class="max-w-full h-auto rounded" loading="lazy"/>
+                    </div>
+                    <h4 class="text-lg md:text-xl font-semibold mb-2">Custom Configurations</h4>
+                    <p class="text-sm md:text-base">Tailored setups for specific security needs, including smart integrations and remote access.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-12 px-4 bg-gray-100 md:py-16">
+        <div class="max-w-7xl mx-auto text-center">
+            <h3 class="text-2xl md:text-3xl font-bold mb-6 md:mb-8">About Us</h3>
+            <p class="text-base md:text-lg mb-6 md:mb-8">At SecureVision, we specialize in providing top-tier CCTV installation services. With years of experience, our certified technicians ensure that your property is fully protected. We use the latest technology to deliver reliable, high-performance security solutions.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                <div>
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/1e8249e9-bccc-47c4-ba08-a377eb30b546.png" alt="CCTV team group photo" class="max-w-full h-auto rounded-lg shadow-md" loading="lazy"/>
+                </div>
+                <div class="flex items-center">
+                    <ul class="list-disc list-inside text-left text-sm md:text-base">
+                        <li>Licensed and insured professionals</li>
+                        <li>Free consultations and site inspections</li>
+                        <li>Competitive pricing with warranties</li>
+                        <li>24/7 support and emergency services</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feedback Section -->
+    <section id="feedback" class="py-12 px-4 bg-white md:py-16">
+        <div class="max-w-md mx-auto text-center">
+            <h3 class="text-2xl md:text-3xl font-bold mb-6">Your Feedback</h3>
+            <div class="stars" role="radiogroup" aria-label="Star rating">
+                <span class="star" role="radio" aria-checked="false" tabindex="0" data-value="1" aria-label="1 star">★</span>
+                <span class="star" role="radio" aria-checked="false" tabindex="-1" data-value="2" aria-label="2 stars">★</span>
+                <span class="star" role="radio" aria-checked="false" tabindex="-1" data-value="3" aria-label="3 stars">★</span>
+                <span class="star" role="radio" aria-checked="false" tabindex="-1" data-value="4" aria-label="4 stars">★</span>
+                <span class="star" role="radio" aria-checked="false" tabindex="-1" data-value="5" aria-label="5 stars">★</span>
+            </div>
+            <textarea id="feedback-text" rows="4" placeholder="Write your feedback here..." class="w-full p-3 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"></textarea>
+            <button id="submit-feedback" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">Submit Feedback</button>
+            <div id="feedback-message" class="feedback-message" role="alert" aria-live="polite"></div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-12 px-4 bg-blue-600 text-white md:py-16">
+        <div class="max-w-7xl mx-auto text-center">
+            <h3 class="text-2xl md:text-3xl font-bold mb-6 md:mb-8">Contact Us</h3>
+            <p class="text-base md:text-lg mb-6 md:mb-8">Ready to secure your space? Reach out to us for a free quote and consultation today.</p>
+            <div class="contact-info space-y-3">
+                <p>Phone: +91 9987848987</p>
+                <p>Location: Ulwe</p>
+                <p>Email: cctvservice7070@gmail.com</p>
+                <a href="tel:+919987848987" class="call-button">📞 Call Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white py-6 shadow-inner">
+        <div class="max-w-7xl mx-auto text-center">
+            <p class="text-sm md:text-base">© 2025 SecureVision Installations. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+        // Mobile Menu Toggle
+const menuToggle = document.getElementById('menu-toggle');
+const mobileMenu = document.getElementById('mobile-menu');
+menuToggle.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+});
+
+// Feedback System
+const stars = document.querySelectorAll('.star');
+const feedbackText = document.getElementById('feedback-text');
+const submitFeedback = document.getElementById('submit-feedback');
+const feedbackMessage = document.getElementById('feedback-message');
+let selectedRating = 0;
+
+stars.forEach((star, index) => {
+    star.addEventListener('click', () => {
+        selectedRating = index + 1;
+        updateStars();
+    });
+    star.addEventListener('mouseover', () => {
+        highlightStars(index + 1);
+    });
+    star.addEventListener('mouseout', () => {
+        highlightStars(selectedRating);
+    });
+    star.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            selectedRating = Math.min(5, selectedRating + 1);
+            updateStars();
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            selectedRating = Math.max(1, selectedRating - 1);
+            updateStars();
+        } else if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            updateStars();
+        }
+    });
+});
+
+function updateStars() {
+    stars.forEach((star, i) => {
+        if (i < selectedRating) {
+            star.classList.add('selected');
+            star.setAttribute('aria-checked', 'true');
+        } else {
+            star.classList.remove('selected');
+            star.setAttribute('aria-checked', 'false');
+        }
+        star.tabIndex = (i === 0 ? 0 : -1);
+    });
+}
+
+function highlightStars(count) {
+    stars.forEach((star, i) => {
+        if (i < count) {
+            star.classList.add('hovered');
+        } else {
+            star.classList.remove('hovered');
+        }
+    });
+}
+
+submitFeedback.addEventListener('click', () => {
+    const feedback = feedbackText.value.trim();
+
+    if (selectedRating === 0 || feedback === '') {
+        feedbackMessage.textContent = "Please provide both a rating and feedback.";
+        feedbackMessage.className = "feedback-message error";
+        feedbackMessage.style.display = "block";
+        return;
+    }
+
+  fetch('/submit-feedback', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+        rating: selectedRating,
+        message: feedback
+    })
+})
+
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            feedbackMessage.textContent = data.message;
+            feedbackMessage.className = "feedback-message success";
+            feedbackMessage.style.display = "block";
+            feedbackText.value = '';
+            selectedRating = 0;
+            updateStars();
+        } else {
+            feedbackMessage.textContent = data.error;
+            feedbackMessage.className = "feedback-message error";
+            feedbackMessage.style.display = "block";
+        }
+    })
+    .catch(error => {
+        feedbackMessage.textContent = "An error occurred. Please try again later.";
+        feedbackMessage.className = "feedback-message error";
+        feedbackMessage.style.display = "block";
+    });
+});
+
+// Welcome Modal
+const welcomeModal = document.getElementById('welcome-modal');
+const closeModal = document.getElementById('close-modal');
+window.addEventListener('load', () => {
+    welcomeModal.classList.remove('hidden');
+});
+closeModal.addEventListener('click', () => {
+    welcomeModal.classList.add('hidden');
+});
+
+    </script>
+</body>
+</html>
+
